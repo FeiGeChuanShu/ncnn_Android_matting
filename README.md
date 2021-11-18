@@ -20,7 +20,7 @@ https://github.com/nihui/opencv-mobile
 * Open this project with Android Studio, build it and enjoy!  
 
 ## result  
-![](test_img.jpg) 
+![](test_img.jpg)  
 ![](screenshot.png)  
 
 ## reference  
