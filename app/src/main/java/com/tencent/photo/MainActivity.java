@@ -13,6 +13,8 @@
 // specific language governing permissions and limitations under the License.
 
 package com.tencent.photo;
+import android.os.Build;
+import android.Manifest;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,28 +31,46 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.media.ExifInterface;
 import android.graphics.Matrix;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import android.content.pm.PackageManager;
+import java.io.File;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.provider.MediaStore;
 
+import android.os.Environment;
 public class MainActivity extends Activity
 {
-    private static final int SELECT_IMAGE = 1;
-
+    private static final int TAKE_PHOTO = 1;
+    private static final int SELECT_IMAGE = 2;
     private int style_type = 0;
     private ImageView imageView;
     private Bitmap yourSelectedImage = null;
+    private Uri imageUri;
+    private final String filePath = Environment.getExternalStorageDirectory() + File.separator + "output_image.jpg";
 
     private Photo photo = new Photo();
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults != null && grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case 1: {
+                    requestCamera();
+                }
+                break;
+            }
+        }
+    }
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        //requestPermission();
         boolean ret_init = photo.Init(getAssets());
         if (!ret_init)
         {
@@ -68,7 +88,13 @@ public class MainActivity extends Activity
                 startActivityForResult(i, SELECT_IMAGE);
             }
         });
-
+        Button buttonCamera = (Button) findViewById(R.id.buttonCamera);
+        buttonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                requestPermission();
+            }
+        });
         Button buttonDetect = (Button) findViewById(R.id.buttonDetect);
         buttonDetect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,28 +149,72 @@ public class MainActivity extends Activity
             }
         });
     }
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
+        } else {
+            requestCamera();
+        }
+    }
+    private void requestCamera() {
+        File outputImage = new File(filePath);
+        try
+        {
+            if (!outputImage.getParentFile().exists()) {
+                outputImage.getParentFile().mkdirs();
+            }
+            if (outputImage.exists()) {
+                outputImage.delete();
+            }
 
+            outputImage.createNewFile();
+
+            if (Build.VERSION.SDK_INT >= 24) {
+                imageUri = FileProvider.getUriForFile(this,
+                        "com.tencent.photo.fileprovider", outputImage);
+            } else {
+                imageUri = Uri.fromFile(outputImage);
+            }
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(intent, TAKE_PHOTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-
-            try
-            {
-                if (requestCode == SELECT_IMAGE) {
-                    yourSelectedImage = decodeUri(selectedImage);
-
-                    imageView.setImageBitmap(yourSelectedImage);
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        yourSelectedImage = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        imageView.setImageBitmap(yourSelectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        Log.e("MainActivity", "FileNotFoundException");
+                    }
                 }
-            }
-            catch (FileNotFoundException e)
-            {
-                Log.e("MainActivity", "FileNotFoundException");
-                return;
-            }
+                break;
+            case SELECT_IMAGE:
+                if (resultCode == RESULT_OK && null != data) {
+                    Uri selectedImage = data.getData();
+                    try {
+                        if (requestCode == SELECT_IMAGE) {
+                            yourSelectedImage = decodeUri(selectedImage);
+
+                            imageView.setImageBitmap(yourSelectedImage);
+                        }
+                    }
+                    catch (FileNotFoundException e) {
+                        Log.e("MainActivity", "FileNotFoundException");
+                        return;
+                    }
+                }
+            default:
+                break;
         }
     }
 
