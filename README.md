@@ -1,10 +1,9 @@
 # ncnn_Android_modnet
 Android human matting demo infer by ncnn  
 
-the model from **MODNet: Trimap-Free Portrait Matting in Real Time**  
 ## support model  
-### 1.mobilenetv2  
-### 2.hrnet-w18  
+#### 1.MODNet(mobilenetv2)  
+#### 2.MODNet (hrnet-w18)  
 ## how to build and run
 ### step1
 https://github.com/Tencent/ncnn/releases
