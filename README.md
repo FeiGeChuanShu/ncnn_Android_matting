@@ -1,4 +1,4 @@
-# ncnn_Android_modnet
+# ncnn_Android_matting
 Android human matting demo infer by ncnn  
 
 ## support model  
