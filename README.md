@@ -22,8 +22,7 @@ https://github.com/nihui/opencv-mobile
 
 ## result  
 ![](windows_result.jpg)  
-![](test_img.jpg)  
-![](android_result.png)  
+![](test_img.jpg)![](android_result.png)  
 
 ## reference  
 1.https://github.com/nihui/ncnn-android-styletransfer  
