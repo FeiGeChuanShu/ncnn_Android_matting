@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">bgremove_demo</string>
+    <string-array name="style_array">
+        <item>mobilenetv2</item>
+        <item>hrnet-w18</item>
+    </string-array>
+</resources>

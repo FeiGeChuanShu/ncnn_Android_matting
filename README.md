@@ -1,9 +1,9 @@
 # ncnn_Android_matting
-Android human matting demo infer by ncnn  
+Android and Windows human matting demo infer by ncnn  
 
 ## support model  
-#### 1.MODNet(mobilenetv2)  
-#### 2.MODNet (hrnet-w18)  
+##### 1.MODNet(mobilenetv2)  
+##### 2.MODNet (hrnet-w18)  
 ## how to build and run
 ### step1
 https://github.com/Tencent/ncnn/releases
@@ -21,8 +21,9 @@ https://github.com/nihui/opencv-mobile
 * Open this project with Android Studio, build it and enjoy!  
 
 ## result  
+![](windows_result.jpg)  
 ![](test_img.jpg)  
-![](screenshot.png)  
+![](android_result.png)  
 
 ## reference  
 1.https://github.com/nihui/ncnn-android-styletransfer  
