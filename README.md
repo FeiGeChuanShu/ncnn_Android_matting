@@ -3,7 +3,8 @@ Android and Windows human matting demo infer by ncnn
 
 ## support model  
 ##### 1.MODNet(mobilenetv2)  
-##### 2.MODNet (hrnet-w18)  
+##### 2.MODNet(hrnet-w18)  
+##### 3.P3M  
 ## how to build and run
 ### step1
 https://github.com/Tencent/ncnn/releases
@@ -28,3 +29,4 @@ https://github.com/nihui/opencv-mobile
 1.https://github.com/nihui/ncnn-android-styletransfer  
 2.https://github.com/ZHKKKe/MODNet  
 3.https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.3/contrib/Matting
+4.https://github.com/JizhiziLi/P3M  
