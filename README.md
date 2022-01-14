@@ -4,7 +4,7 @@ Android and Windows human matting demo infer by ncnn
 ## support model  
 ##### 1.MODNet(mobilenetv2)  
 ##### 2.MODNet(hrnet-w18)  
-##### 3.P3M  
+##### 3.P3M(the model is large so windows demo only)  
 ## how to build and run
 ### step1
 https://github.com/Tencent/ncnn/releases
