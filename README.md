@@ -5,6 +5,7 @@ Android and Windows human matting demo infer by ncnn
 ##### 1.MODNet(mobilenetv2)  
 ##### 2.MODNet(hrnet-w18)  
 ##### 3.P3M(the model is large so windows demo only)  
+##### 4.PP-Matting-512  
 ## how to build and run
 ### step1
 https://github.com/Tencent/ncnn/releases
@@ -28,5 +29,5 @@ https://github.com/nihui/opencv-mobile
 ## reference  
 1.https://github.com/nihui/ncnn-android-styletransfer  
 2.https://github.com/ZHKKKe/MODNet  
-3.https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.3/contrib/Matting  
+3.https://github.com/PaddlePaddle/PaddleSeg/tree/release/2.5/Matting  
 4.https://github.com/JizhiziLi/P3M  
